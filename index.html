@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nancy之家</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #FBCFE8;
+            --primary-dark: #BE185D;
+            --secondary: #06B6D4;
+            --secondary-light: #67E8F9;
+            --background: linear-gradient(135deg, #FDF2F8 0%, #E0F2FE 100%);
+            --surface: #FFFFFF;
+            --text: #831843;
+            --text-muted: #9F1239;
+            --accent: #F59E0B;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #FDF2F8 0%, #E0F2FE 50%, #FDF2F8 100%);
+            min-height: 100vh;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .nav-active {
+            background: linear-gradient(135deg, #EC4899 0%, #06B6D4 100%);
+            color: white;
+        }
+
+        .memory-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-zone {
+            border: 2px dashed #EC4899;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: #06B6D4;
+            background: #FDF2F8;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #EC4899 0%, #06B6D4 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .year-section {
+            border-left: 4px solid #EC4899;
+        }
+
+        .memory-image {
+            object-fit: cover;
+            aspect-ratio: 16/9;
+        }
+
+        .coming-soon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-lg z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <svg class="w-8 h-8 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <span class="text-2xl font-bold text-pink-600 font-serif">Nancy之家</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="showPage('home')" id="nav-home" class="nav-btn px-6 py-2 rounded-full font-medium transition-all">
+                        首页
+                    </button>
+                    <button onclick="showPage('memories')" id="nav-memories" class="nav-btn px-6 py-2 rounded-full font-medium transition-all">
+                        回忆
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12">
+        <!-- Home Page -->
+        <div id="page-home" class="page fade-in">
+            <div class="max-w-6xl mx-auto px-4 py-16">
+                <div class="text-center">
+                    <!-- 结婚照相框 -->
+                    <div class="mb-8">
+                        <div class="inline-block relative">
+                            <!-- 相框装饰 -->
+                            <div class="absolute -inset-4 bg-gradient-to-br from-pink-300 via-cyan-200 to-pink-300 rounded-3xl blur-lg opacity-50"></div>
+                            <div class="relative">
+                                <img src="assets/结婚照首页.jpg" alt="我们的结婚照" 
+                                    class="w-80 h-auto rounded-2xl shadow-2xl border-4 border-white">
+                                <!-- 相框底部装饰 -->
+                                <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-white px-6 py-2 rounded-full shadow-lg">
+                                    <span class="text-pink-500 font-medium">❤️ 幸福时刻</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="text-6xl font-bold font-serif text-pink-600 mb-6">
+                        Nancy之家
+                    </h1>
+                    <p class="text-2xl text-cyan-600 mb-12">
+                        共担风雨，共创价值<br>
+                        <span class="text-pink-500">以爱为光，让家向上</span>
+                    </p>
+                    <div class="inline-block bg-white rounded-2xl px-12 py-8 shadow-xl">
+                        <div class="coming-soon text-3xl font-bold bg-gradient-to-r from-pink-500 to-cyan-500 bg-clip-text text-transparent">
+                            🎉 敬请期待
+                        </div>
+                        <p class="text-gray-500 mt-4">更多精彩功能即将上线</p>
+                    </div>
+                </div>
+
+                <!-- Features Preview -->
+                <div class="mt-20 grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-pink-700 mb-2">家庭成员</h3>
+                        <p class="text-gray-600">邀请家人加入，共享美好时光</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+                        <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-cyan-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-cyan-700 mb-2">美好回忆</h3>
+                        <p class="text-gray-600">上传照片，记录珍贵瞬间</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-pink-100 to-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-pink-700 mb-2">亲密互动</h3>
+                        <p class="text-gray-600">与家人分享生活点滴</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memories Page -->
+        <div id="page-memories" class="page hidden">
+            <div class="max-w-6xl mx-auto px-4 py-8">
+                <!-- Add Memory Button -->
+                <div class="mb-8">
+                    <button onclick="toggleAddMemory()" class="w-full btn-primary py-4 rounded-xl text-white font-bold text-lg flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        添加新回忆
+                    </button>
+                </div>
+
+                <!-- Upload Section (Collapsible) -->
+                <div id="upload-section" class="hidden bg-white rounded-2xl p-8 shadow-lg mb-12 fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">✨ 添加新回忆</h2>
+                        <button onclick="toggleAddMemory()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <form id="memory-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">选择日期</label>
+                            <input type="date" id="memory-date" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">上传图片</label>
+                            <div class="upload-zone rounded-xl p-8 text-center cursor-pointer" onclick="document.getElementById('memory-image').click()">
+                                <input type="file" id="memory-image" accept="image/*" class="hidden" onchange="previewImage(event)">
+                                <div id="image-preview" class="hidden">
+                                    <img id="preview-img" class="max-h-64 mx-auto rounded-lg">
+                                </div>
+                                <div id="upload-placeholder">
+                                    <svg class="w-12 h-12 text-pink-500 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 6v6l-2-2 1.41-1.41L12 6zm6 8h-4v4H10v-4H6l6-6 6 6z"/>
+                                    </svg>
+                                    <p class="text-gray-600">点击或拖拽图片到此处</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">写下回忆</label>
+                            <textarea id="memory-text" rows="4" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:outline-none transition-all resize-none"
+                                placeholder="写下这段美好的回忆..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-lg">
+                            保存回忆
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Memories List -->
+                <div id="memories-list">
+                    <div class="text-center text-gray-500 py-12">
+                        <svg class="w-16 h-16 mx-auto text-pink-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <p class="text-lg text-pink-600">还没有回忆，开始记录你的第一个家庭记忆吧！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Memory Detail Modal -->
+    <div id="memory-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
+
+            document.getElementById(`page-${page}`).classList.remove('hidden');
+            document.getElementById(`page-${page}`).classList.add('fade-in');
+            document.getElementById(`nav-${page}`).classList.add('nav-active');
+
+            if (page === 'memories') {
+                loadMemories();
+            }
+        }
+
+        // Initialize navigation
+        showPage('home');
+
+        // Toggle add memory section
+        function toggleAddMemory() {
+            const section = document.getElementById('upload-section');
+            section.classList.toggle('hidden');
+        }
+
+        // Image preview
+        let selectedImage = null;
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImage = e.target.result;
+                    document.getElementById('preview-img').src = selectedImage;
+                    document.getElementById('image-preview').classList.remove('hidden');
+                    document.getElementById('upload-placeholder').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save memory
+        document.getElementById('memory-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const date = document.getElementById('memory-date').value;
+            const text = document.getElementById('memory-text').value;
+
+            if (!date || !text) {
+                alert('请填写完整信息');
+                return;
+            }
+
+            const memory = {
+                id: Date.now(),
+                date: date,
+                image: selectedImage,
+                text: text,
+                createdAt: new Date().toISOString()
+            };
+
+            console.log('保存新回忆:', memory);
+
+            // Get existing memories
+            let memories = JSON.parse(localStorage.getItem('family-memories') || '[]');
+            console.log('现有回忆数量:', memories.length);
+            memories.push(memory);
+            console.log('添加后回忆数量:', memories.length);
+
+            localStorage.setItem('family-memories', JSON.stringify(memories));
+            console.log('已保存到 localStorage');
+
+            // Verify save
+            const saved = JSON.parse(localStorage.getItem('family-memories'));
+            console.log('验证保存的回忆数量:', saved.length);
+
+            // Reset form
+            document.getElementById('memory-form').reset();
+            document.getElementById('image-preview').classList.add('hidden');
+            document.getElementById('upload-placeholder').classList.remove('hidden');
+            selectedImage = null;
+
+            // Hide upload section
+            document.getElementById('upload-section').classList.add('hidden');
+
+            // Load memories
+            loadMemories();
+            alert('回忆保存成功！');
+        });
+
+        // Load memories
+        function loadMemories() {
+            let memories = JSON.parse(localStorage.getItem('family-memories') || '[]');
+
+            if (memories.length === 0) {
+                document.getElementById('memories-list').innerHTML = `
+                    <div class="text-center text-gray-500 py-12">
+                        <svg class="w-16 h-16 mx-auto text-pink-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <p class="text-lg text-pink-600">还没有回忆，开始记录你的第一个家庭记忆吧！</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort by date
+            memories.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Group by year
+            const groupedMemories = {};
+            memories.forEach(memory => {
+                const year = new Date(memory.date).getFullYear();
+                if (!groupedMemories[year]) {
+                    groupedMemories[year] = {};
+                }
+                const month = new Date(memory.date).getMonth();
+                if (!groupedMemories[year][month]) {
+                    groupedMemories[year][month] = [];
+                }
+                groupedMemories[year][month].push(memory);
+            });
+
+            const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月',
+                              '七月', '八月', '九月', '十月', '十一月', '十二月'];
+
+            let html = '';
+            Object.keys(groupedMemories).sort((a, b) => b - a).forEach(year => {
+                html += `<div class="mb-12">`;
+                html += `<h2 class="text-3xl font-bold text-pink-600 mb-6 font-serif">${year}年</h2>`;
+
+                Object.keys(groupedMemories[year]).sort((a, b) => b - a).forEach(month => {
+                    html += `<div class="year-section pl-6 mb-8">`;
+                    html += `<h3 class="text-xl font-semibold text-cyan-700 mb-4">${monthNames[month]}</h3>`;
+
+                    groupedMemories[year][month].sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(memory => {
+                        const displayDate = new Date(memory.date).toLocaleDateString('zh-CN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+
+                        html += `
+                            <div class="memory-card bg-white rounded-xl shadow-lg mb-6 overflow-hidden" onclick="showMemory(${memory.id})">
+                                ${memory.image ? `
+                                    <img src="${memory.image}" alt="Memory" class="memory-image w-full">
+                                ` : ''}
+                                <div class="p-6">
+                                    <div class="flex items-center gap-2 text-pink-600 mb-3">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                        </svg>
+                                        <span class="font-medium">${displayDate}</span>
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed">${memory.text}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div>`;
+                });
+
+                html += `</div>`;
+            });
+
+            document.getElementById('memories-list').innerHTML = html;
+        }
+
+        // Show memory detail
+        function showMemory(id) {
+            const memories = JSON.parse(localStorage.getItem('family-memories') || '[]');
+            const memory = memories.find(m => m.id === id);
+
+            if (!memory) return;
+
+            const displayDate = new Date(memory.date).toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const modalContent = `
+                <div class="relative">
+                    ${memory.image ? `
+                        <img src="${memory.image}" alt="Memory" class="w-full max-h-[50vh] object-cover">
+                    ` : `
+                        <div class="bg-gradient-to-br from-pink-100 to-cyan-100 h-64 flex items-center justify-center">
+                            <svg class="w-24 h-24 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                            </svg>
+                        </div>
+                    `}
+                    <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-all">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-8">
+                    <div class="flex items-center gap-2 text-pink-600 mb-4">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                        </svg>
+                        <span class="font-medium">${displayDate}</span>
+                    </div>
+                    <p class="text-gray-800 text-lg leading-relaxed">${memory.text}</p>
+                    <button onclick="deleteMemory(${memory.id})" class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all">
+                        删除这条回忆
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('modal-content').innerHTML = modalContent;
+            document.getElementById('memory-modal').classList.remove('hidden');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('memory-modal').classList.add('hidden');
+        }
+
+        // Close modal on background click
+        document.getElementById('memory-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Delete memory
+        function deleteMemory(id) {
+            if (!confirm('确定要删除这条回忆吗？')) return;
+
+            let memories = JSON.parse(localStorage.getItem('family-memories') || '[]');
+            memories = memories.filter(m => m.id !== id);
+            localStorage.setItem('family-memories', JSON.stringify(memories));
+
+            closeModal();
+            loadMemories();
+        }
+    </script>
+</body>
+</html>
