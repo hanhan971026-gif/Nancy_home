@@ -120,6 +120,9 @@
                     <button onclick="showPage('home')" id="nav-home" class="nav-btn px-6 py-2 rounded-full font-medium transition-all">
                         首页
                     </button>
+                    <button onclick="showPage('members')" id="nav-members" class="nav-btn px-6 py-2 rounded-full font-medium transition-all">
+                        家庭成员
+                    </button>
                     <button onclick="showPage('memories')" id="nav-memories" class="nav-btn px-6 py-2 rounded-full font-medium transition-all">
                         回忆
                     </button>
@@ -198,6 +201,74 @@
             </div>
         </div>
 
+        <!-- Members Page -->
+        <div id="page-members" class="page hidden">
+            <div class="max-w-6xl mx-auto px-4 py-8">
+                <!-- Add Member Button -->
+                <div class="mb-8">
+                    <button onclick="toggleAddMember()" class="w-full btn-primary py-4 rounded-xl text-white font-bold text-lg flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        添加家庭成员
+                    </button>
+                </div>
+
+                <!-- Add Member Form (Collapsible) -->
+                <div id="add-member-section" class="hidden bg-white rounded-2xl p-8 shadow-lg mb-12 fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">✨ 添加家庭成员</h2>
+                        <button onclick="toggleAddMember()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <form id="member-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">昵称</label>
+                            <input type="text" id="member-name" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:outline-none transition-all"
+                                placeholder="请输入成员昵称">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">个人照片</label>
+                            <div class="upload-zone rounded-xl p-8 text-center cursor-pointer" onclick="document.getElementById('member-photo').click()">
+                                <input type="file" id="member-photo" accept="image/*" class="hidden" onchange="previewMemberPhoto(event)">
+                                <div id="member-photo-preview" class="hidden">
+                                    <img id="member-photo-img" class="w-32 h-32 mx-auto rounded-full object-cover">
+                                </div>
+                                <div id="member-photo-placeholder">
+                                    <svg class="w-12 h-12 text-pink-500 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                    </svg>
+                                    <p class="text-gray-600">点击上传个人照片</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">出生日期</label>
+                            <input type="date" id="member-birthday" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:outline-none transition-all">
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-lg">
+                            保存成员
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Members List -->
+                <div id="members-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="text-center text-gray-500 py-12 col-span-full">
+                        <svg class="w-16 h-16 mx-auto text-pink-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                        <p class="text-lg text-pink-600">还没有家庭成员，快来添加吧！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Memories Page -->
         <div id="page-memories" class="page hidden">
             <div class="max-w-6xl mx-auto px-4 py-8">
@@ -267,6 +338,13 @@
         </div>
     </main>
 
+    <!-- Member Detail Modal -->
+    <div id="member-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div id="member-modal-content"></div>
+        </div>
+    </div>
+
     <!-- Memory Detail Modal -->
     <div id="memory-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -287,6 +365,9 @@
             if (page === 'memories') {
                 loadMemories();
             }
+            if (page === 'members') {
+                loadMembers();
+            }
         }
 
         // Initialize navigation
@@ -296,6 +377,433 @@
         function toggleAddMemory() {
             const section = document.getElementById('upload-section');
             section.classList.toggle('hidden');
+        }
+
+        // Toggle add member section
+        function toggleAddMember() {
+            const section = document.getElementById('add-member-section');
+            section.classList.toggle('hidden');
+        }
+
+        // Member photo preview
+        let selectedMemberPhoto = null;
+
+        function previewMemberPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedMemberPhoto = e.target.result;
+                    document.getElementById('member-photo-img').src = selectedMemberPhoto;
+                    document.getElementById('member-photo-preview').classList.remove('hidden');
+                    document.getElementById('member-photo-placeholder').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save member
+        document.getElementById('member-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('member-name').value;
+            const birthday = document.getElementById('member-birthday').value;
+
+            if (!name || !birthday) {
+                alert('请填写完整信息');
+                return;
+            }
+
+            const member = {
+                id: Date.now(),
+                name: name,
+                photo: selectedMemberPhoto,
+                birthday: birthday,
+                yearlyPhotos: [],
+                lifeEvents: [],
+                createdAt: new Date().toISOString()
+            };
+
+            let members = JSON.parse(localStorage.getItem('family-members') || '[]');
+            members.push(member);
+            localStorage.setItem('family-members', JSON.stringify(members));
+
+            // Reset form
+            document.getElementById('member-form').reset();
+            document.getElementById('member-photo-preview').classList.add('hidden');
+            document.getElementById('member-photo-placeholder').classList.remove('hidden');
+            selectedMemberPhoto = null;
+
+            // Hide form
+            document.getElementById('add-member-section').classList.add('hidden');
+
+            // Load members
+            loadMembers();
+            alert('家庭成员添加成功！');
+        });
+
+        // Load members
+        function loadMembers() {
+            let members = JSON.parse(localStorage.getItem('family-members') || '[]');
+
+            if (members.length === 0) {
+                document.getElementById('members-list').innerHTML = `
+                    <div class="text-center text-gray-500 py-12 col-span-full">
+                        <svg class="w-16 h-16 mx-auto text-pink-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                        <p class="text-lg text-pink-600">还没有家庭成员，快来添加吧！</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            members.forEach(member => {
+                const age = calculateAge(member.birthday);
+                const memberPhoto = member.photo || 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZkN2RmNyIvPjwvc3ZnPg==';
+
+                html += `
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden memory-card" onclick="showMemberDetail(${member.id})">
+                        <div class="relative">
+                            <img src="${memberPhoto}" alt="${member.name}" class="w-full h-48 object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                                <h3 class="text-xl font-bold text-white">${member.name}</h3>
+                                <p class="text-white/80">${age}岁</p>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 text-pink-600">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
+                                </svg>
+                                <span class="text-sm">出生: ${new Date(member.birthday).toLocaleDateString('zh-CN')}</span>
+                            </div>
+                            <div class="mt-2 flex items-center gap-2 text-cyan-600">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                </svg>
+                                <span class="text-sm">${member.yearlyPhotos?.length || 0} 张岁岁照</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('members-list').innerHTML = html;
+        }
+
+        // Calculate age
+        function calculateAge(birthday) {
+            const today = new Date();
+            const birth = new Date(birthday);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Show member detail
+        function showMemberDetail(id) {
+            const members = JSON.parse(localStorage.getItem('family-members') || '[]');
+            const member = members.find(m => m.id === id);
+            if (!member) return;
+
+            const age = calculateAge(member.birthday);
+            const memberPhoto = member.photo || 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZkN2RmNyIvPjwvc3ZnPg==';
+
+            let yearlyPhotosHtml = '';
+            if (member.yearlyPhotos && member.yearlyPhotos.length > 0) {
+                member.yearlyPhotos.sort((a, b) => a.year - b.year).forEach(photo => {
+                    yearlyPhotosHtml += `
+                        <div class="text-center">
+                            <img src="${photo.image}" alt="${photo.year}年" class="w-24 h-24 object-cover rounded-lg mx-auto mb-2">
+                            <p class="text-sm text-gray-600">${photo.year}年</p>
+                        </div>
+                    `;
+                });
+            } else {
+                yearlyPhotosHtml = '<p class="text-gray-400 col-span-full">暂无岁岁照</p>';
+            }
+
+            let lifeEventsHtml = '';
+            if (member.lifeEvents && member.lifeEvents.length > 0) {
+                member.lifeEvents.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(event => {
+                    lifeEventsHtml += `
+                        <div class="flex gap-4 mb-4">
+                            <div class="w-24 flex-shrink-0 text-pink-600 font-medium">
+                                ${new Date(event.date).getFullYear()}年
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-gray-800">${event.title}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                lifeEventsHtml = '<p class="text-gray-400">暂无生活轨迹</p>';
+            }
+
+            const modalContent = `
+                <div class="relative">
+                    <img src="${memberPhoto}" alt="${member.name}" class="w-full h-64 object-cover">
+                    <button onclick="closeMemberModal()" class="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-all">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                    <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 rounded-full">
+                        <span class="text-xl font-bold text-pink-600">${member.name}</span>
+                        <span class="text-gray-600"> · ${age}岁</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <!-- 基本信息 -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 text-gray-600 mb-4">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
+                            </svg>
+                            <span>出生日期: ${new Date(member.birthday).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        </div>
+                    </div>
+
+                    <!-- 岁岁照 -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-pink-600">📸 岁岁照</h3>
+                            <button onclick="showAddYearlyPhoto(${member.id})" class="text-sm bg-pink-100 text-pink-600 px-3 py-1 rounded-full hover:bg-pink-200 transition-all">
+                                + 添加
+                            </button>
+                        </div>
+                        <div id="yearly-photos-grid" class="flex gap-4 overflow-x-auto pb-2">
+                            ${yearlyPhotosHtml}
+                        </div>
+                    </div>
+
+                    <!-- 生活轨迹 -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-cyan-600">🌟 生活轨迹</h3>
+                            <button onclick="showAddLifeEvent(${member.id})" class="text-sm bg-cyan-100 text-cyan-600 px-3 py-1 rounded-full hover:bg-cyan-200 transition-all">
+                                + 添加
+                            </button>
+                        </div>
+                        <div id="life-events-list" class="space-y-2">
+                            ${lifeEventsHtml}
+                        </div>
+                    </div>
+
+                    <button onclick="deleteMember(${member.id})" class="w-full mt-4 px-6 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-all">
+                        删除该成员
+                    </button>
+                </div>
+
+                <!-- 添加岁岁照表单 -->
+                <div id="add-yearly-photo-form" class="hidden p-8 border-t">
+                    <h4 class="text-lg font-bold mb-4">添加岁岁照</h4>
+                    <form id="yearly-photo-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">年份</label>
+                            <select id="yearly-photo-year" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:outline-none">
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">照片</label>
+                            <div class="upload-zone rounded-xl p-4 text-center cursor-pointer" onclick="document.getElementById('yearly-photo-file').click()">
+                                <input type="file" id="yearly-photo-file" accept="image/*" class="hidden" onchange="previewYearlyPhoto(event)">
+                                <div id="yearly-photo-preview" class="hidden">
+                                    <img id="yearly-photo-img" class="w-24 h-24 mx-auto rounded-lg object-cover">
+                                </div>
+                                <div id="yearly-photo-placeholder">
+                                    <p class="text-gray-600 text-sm">点击上传照片</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" class="flex-1 btn-primary py-2 rounded-lg text-white font-medium">保存</button>
+                            <button type="button" onclick="hideAddYearlyPhoto()" class="flex-1 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium">取消</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 添加生活轨迹表单 -->
+                <div id="add-life-event-form" class="hidden p-8 border-t">
+                    <h4 class="text-lg font-bold mb-4">添加生活轨迹</h4>
+                    <form id="life-event-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">日期</label>
+                            <input type="date" id="life-event-date" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">事件标题</label>
+                            <input type="text" id="life-event-title" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:outline-none" placeholder="例如：上小学、考大学、结婚...">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" class="flex-1 btn-primary py-2 rounded-lg text-white font-medium">保存</button>
+                            <button type="button" onclick="hideAddLifeEvent()" class="flex-1 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium">取消</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.getElementById('member-modal-content').innerHTML = modalContent;
+            document.getElementById('member-modal').classList.remove('hidden');
+
+            // Initialize yearly photo year select
+            initYearSelect('yearly-photo-year', member.birthday);
+
+            // Setup form handlers
+            setupYearlyPhotoForm(member.id);
+            setupLifeEventForm(member.id);
+        }
+
+        // Initialize year select
+        function initYearSelect(selectId, birthday) {
+            const select = document.getElementById(selectId);
+            const birthYear = new Date(birthday).getFullYear();
+            const currentYear = new Date().getFullYear();
+            let html = '';
+            for (let year = currentYear; year >= birthYear; year--) {
+                html += `<option value="${year}">${year}年</option>`;
+            }
+            select.innerHTML = html;
+        }
+
+        // Yearly photo preview
+        let selectedYearlyPhoto = null;
+
+        function previewYearlyPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedYearlyPhoto = e.target.result;
+                    document.getElementById('yearly-photo-img').src = selectedYearlyPhoto;
+                    document.getElementById('yearly-photo-preview').classList.remove('hidden');
+                    document.getElementById('yearly-photo-placeholder').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Show add yearly photo form
+        function showAddYearlyPhoto(memberId) {
+            document.getElementById('add-yearly-photo-form').classList.remove('hidden');
+            document.getElementById('add-life-event-form').classList.add('hidden');
+        }
+
+        // Hide add yearly photo form
+        function hideAddYearlyPhoto() {
+            document.getElementById('add-yearly-photo-form').classList.add('hidden');
+            selectedYearlyPhoto = null;
+            document.getElementById('yearly-photo-preview').classList.add('hidden');
+            document.getElementById('yearly-photo-placeholder').classList.remove('hidden');
+        }
+
+        // Setup yearly photo form
+        function setupYearlyPhotoForm(memberId) {
+            document.getElementById('yearly-photo-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const year = document.getElementById('yearly-photo-year').value;
+                if (!selectedYearlyPhoto) {
+                    alert('请选择照片');
+                    return;
+                }
+
+                let members = JSON.parse(localStorage.getItem('family-members') || '[]');
+                const memberIndex = members.findIndex(m => m.id === memberId);
+                if (memberIndex === -1) return;
+
+                if (!members[memberIndex].yearlyPhotos) {
+                    members[memberIndex].yearlyPhotos = [];
+                }
+
+                // Check if already exists for this year
+                const existingIndex = members[memberIndex].yearlyPhotos.findIndex(p => p.year === parseInt(year));
+                if (existingIndex >= 0) {
+                    members[memberIndex].yearlyPhotos[existingIndex].image = selectedYearlyPhoto;
+                } else {
+                    members[memberIndex].yearlyPhotos.push({
+                        year: parseInt(year),
+                        image: selectedYearlyPhoto
+                    });
+                }
+
+                localStorage.setItem('family-members', JSON.stringify(members));
+                hideAddYearlyPhoto();
+                showMemberDetail(memberId);
+            });
+        }
+
+        // Show add life event form
+        function showAddLifeEvent(memberId) {
+            document.getElementById('add-life-event-form').classList.remove('hidden');
+            document.getElementById('add-yearly-photo-form').classList.add('hidden');
+        }
+
+        // Hide add life event form
+        function hideAddLifeEvent() {
+            document.getElementById('add-life-event-form').classList.add('hidden');
+            document.getElementById('life-event-title').value = '';
+            document.getElementById('life-event-date').value = '';
+        }
+
+        // Setup life event form
+        function setupLifeEventForm(memberId) {
+            document.getElementById('life-event-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const date = document.getElementById('life-event-date').value;
+                const title = document.getElementById('life-event-title').value;
+
+                if (!date || !title) {
+                    alert('请填写完整信息');
+                    return;
+                }
+
+                let members = JSON.parse(localStorage.getItem('family-members') || '[]');
+                const memberIndex = members.findIndex(m => m.id === memberId);
+                if (memberIndex === -1) return;
+
+                if (!members[memberIndex].lifeEvents) {
+                    members[memberIndex].lifeEvents = [];
+                }
+
+                members[memberIndex].lifeEvents.push({
+                    date: date,
+                    title: title
+                });
+
+                localStorage.setItem('family-members', JSON.stringify(members));
+                hideAddLifeEvent();
+                showMemberDetail(memberId);
+            });
+        }
+
+        // Close member modal
+        function closeMemberModal() {
+            document.getElementById('member-modal').classList.add('hidden');
+        }
+
+        // Close modal on background click
+        document.getElementById('member-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMemberModal();
+            }
+        });
+
+        // Delete member
+        function deleteMember(id) {
+            if (!confirm('确定要删除该成员吗？')) return;
+
+            let members = JSON.parse(localStorage.getItem('family-members') || '[]');
+            members = members.filter(m => m.id !== id);
+            localStorage.setItem('family-members', JSON.stringify(members));
+
+            closeMemberModal();
+            loadMembers();
         }
 
         // Image preview
